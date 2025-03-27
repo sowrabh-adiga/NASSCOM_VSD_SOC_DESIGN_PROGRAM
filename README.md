@@ -26,7 +26,7 @@ Opensource RTL to GDS2 implementation on OpenLane
    5. Routing: Signal connections are done
    6. Signoff: The design is checked for DRC, LVS, timing issues. GDS is generated
  
-## LAB 
+## LAB : SKY130_D1_SK3 - Get familiar to open-source EDA tools
 
 * Enter the dir `~/Desktop/work/tools/openlane_working_dir/openlane` all openlane runs must happen from this directory.
 * the design folder `~/Desktop/work/tools/openlane_working_dir/openlane/design` holds the data for RTL2GDSII implementation, we focus on `picorv32a`. the `config.tcl` inside the designs have the highest priority and the cmds mentioned in them override the default commands in the tools
@@ -45,5 +45,14 @@ Opensource RTL to GDS2 implementation on OpenLane
 
 * after this `runs` dir willbe created in the `designs/picorv32a` folder
   ![Screenshot from 2025-03-27 14-10-38](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-27%2014-10-38.png)
+* inside the run directory the folders will be created as the runs are done
+  ![run dir](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-27%2014-51-16.png)
+* there is one `config.tcl` which is diffrent from the other config file discussed before, this one shows which default parameters are being taken bt=y the runs
+* Running synthesis:
+  ```bash
+  run_synthesis
+  # runs synthesis and abc's
+  ```
+  
 
 
