@@ -41,7 +41,7 @@ Opensource RTL to GDS2 implementation on OpenLane
   prep -design picorv32a
   # prepares Picorv32a design for implemtation
   ```
-  ![Screenshot from 2025-03-27 14-08-29](https://github.com/user-attachments/assets/86af7bab-5f48-4078-8016-4a62847cbd75)
+  ![Screenshot from 2025-03-27 14-08-29](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-27%2014-08-29.png)
 
 * after this `runs` dir willbe created in the `designs/picorv32a` folder
   ![Screenshot from 2025-03-27 14-10-38](https://github.com/user-attachments/assets/552dadfd-3a1d-4420-988c-5764904a0760)
