@@ -29,7 +29,7 @@ Opensource RTL to GDS2 implementation on OpenLane
 ## LAB 
 
 * Enter the dir `~/Desktop/work/tools/openlane_working_dir/openlane` all openlane runs must happen from this directory.
-* the design folder `~/Desktop/work/tools/openlane_working_dir/openlane/design` holds the data for RTL2GDSII implementation, we focus on `picorv32a`. the `config.tcl` inside the designs have highest priprity and the cmds mentioned in them override the defualt commands in the tools
+* the design folder `~/Desktop/work/tools/openlane_working_dir/openlane/design` holds the data for RTL2GDSII implementation, we focus on `picorv32a`. the `config.tcl` inside the designs have the highest priority and the cmds mentioned in them override the default commands in the tools
 * To open the openlane instance:
   ```bash
   docker
@@ -44,6 +44,6 @@ Opensource RTL to GDS2 implementation on OpenLane
   ![Screenshot from 2025-03-27 14-08-29](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-27%2014-08-29.png)
 
 * after this `runs` dir willbe created in the `designs/picorv32a` folder
-  ![Screenshot from 2025-03-27 14-10-38](https://github.com/user-attachments/assets/552dadfd-3a1d-4420-988c-5764904a0760)
+  ![Screenshot from 2025-03-27 14-10-38](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-27%2014-10-38.png)
 
 
