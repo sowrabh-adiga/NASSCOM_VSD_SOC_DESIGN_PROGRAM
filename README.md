@@ -53,6 +53,21 @@ Opensource RTL to GDS2 implementation on OpenLane
   run_synthesis
   # runs synthesis and abc's
   ```
+* after the run we can check the run dir for the results, logs and reports. `results` folder must have the synthesized netlsit. `reports` folder will have all the reports for synthesis step and `logs` will store all the run logs for synthesis. in the `reports` chronologically latest report is most accurate 
+  ![runs folder content](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-27%2015-15-59.png)
+
+* At this step we need to do DFF ratio calculation as follows:
+```math
+Flip Flop\ Ratio = \frac{Number\ of\ D\ Flip\ Flops}{Total\ Number\ of\ Cells}
+```
+```math
+Percentage\ of\ DFF's = Flip Flop\ Ratio * 100
+```
+* checking for latest file we have `reports/synthesis/1-yosys_4.stat.rpt` from dir image above. Therefore Flip Flop ratio is:
+```math
+Percentage\ of\ DFF's = \frac{1613}{14876} * 100 = 10.84 %
+```
+* we can also analyse the sta reports along with the yosys usage summary
   
 
 
