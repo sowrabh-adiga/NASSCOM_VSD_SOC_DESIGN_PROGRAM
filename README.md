@@ -70,4 +70,18 @@ Percentage\ of\ DFF's = \frac{1613}{14876} * 100 = 10.84 %
 * we can also analyse the sta reports along with the yosys usage summary
   
 
+## Sky130 Day 2 - Good floorplan vs bad floorplan and introduction to library cells
 
+### SKY130_D2_SK1 - Chip Floor planning considerations
+
+* Floorplanning: defining the dimesions of a chip
+* assume unit width and geight of std cells and FF's then taking all of them together, gives us the abs min area required to place the cells inside a core area
+* below are the most important concepts for floorplan definition: 
+```math
+Utilization = \frac{Area\ utilized\ by\ netlist}{Total\ core\ area}
+```
+and 
+
+```math
+Aspect\ Ratio= \frac{Heigth of core}{Width of core}
+```
