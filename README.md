@@ -128,7 +128,7 @@ Area\ of\ die\ in\ microns = \frac{660.685 * 671.405}{1000 * 1000} = 443587.21\ 
 
 * we can view the floorplan generated with the help of `magic` tool
 ```bash
-# in a seperate terminal enter the directory with def filr (results folder in recent run)
+# in a seperate terminal enter the directory with def filr (results folder in recent run stage : floorplan)
 magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
 
 ```
@@ -142,5 +142,37 @@ Pin info in the GUI
 
 diffrent elements in the floorplan
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-9.png)
+
+### SKY130_D2_SK2 - Library Binding and Placement
+
+* **Library**: contains diffrent flavours of cells, timing, functionality informations
+* Placing the netlist elements in core area from floorplan stage is **placement**
+* When the placement is done its wrt the pin placement, estimated resistance, capacitances of the interconeects . signal Transition analysis is done to see if the placed cells are recievin the signals on time, if not buffers are added to improve the transition.
+
+### LAB 
+```bash
+run_placement
+```
+output on terminal;
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-28%2016-27-11.png)
+
+files generated in `results/placement` dir. 
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-28%2016-33-04.png)
+
+see the def generated in `magic`
+
+```bash
+# in a seperate terminal enter the directory with def file (results folder in recent run stage : placement)
+magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+
+```
+
+viewing the def generated in `magic`
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-28%2016-41-08.png)
+
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-28%2016-39-58.png)
+
+
+
 
 
