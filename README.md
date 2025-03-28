@@ -103,7 +103,44 @@ Aspect\ Ratio= \frac{Heigth of core}{Width of core}
   run_floorplan
   # run floorplan
 ```
+floorplan run in terminal
+ ![runs folder content](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-28%2014-37-46.png)
+The run outputs structure in runs folder
 
+![runs folder content](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-28%2014-36-49.png)
 
+floorplan def
+![ ](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-28%2014-45-16.png)
+
+Floorplan def gives us the actual arae of design as follows:
+```math
+1000\ Unit\ Distance = 1\ Micron
+```
+```math
+Width\ in\ unit\ distance = 660685 - 0 = 660685
+```
+```math
+Height\ in\ unit\ distance = 671405 - 0 = 671405
+```
+```math
+Area\ of\ die\ in\ microns = \frac{660.685 * 671.405}{1000 * 1000} = 443587.21\ Microns^2
+```
+
+* we can view the floorplan generated with the help of `magic` tool
+```bash
+# in a seperate terminal enter the directory with def filr (results folder in recent run)
+magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
+
+```
+magic Gui
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-28%2015-13-37.png)
+* in `magic` gui to center the design for better viewing when in  the gui press "s" and "v", "s" is to select an object (entire design in this case)
+* to zoom into a location: left click mouse for lower (x1,y1) and right mouse click for setting (x2,y2)
+* keep the cursor on the object whose info is needed, then press "s" to select and then in tkconsole write cmd "what"
+Pin info in the GUI
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-28%2015-21-49.png)
+
+diffrent elements in the floorplan
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-9.png)
 
 
