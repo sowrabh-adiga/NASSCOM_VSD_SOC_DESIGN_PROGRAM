@@ -75,7 +75,7 @@ Percentage\ of\ DFF's = \frac{1613}{14876} * 100 = 10.84 %
 ### SKY130_D2_SK1 - Chip Floor planning considerations
 
 * Floorplanning: defining the dimesions of a chip
-* assume unit width and geight of std cells and FF's then taking all of them together, gives us the abs min area required to place the cells inside a core area
+* assume unit width and height of std cells and FF's then taking all of them together, gives us the abs min area required to place the cells inside a core area
 * below are the most important concepts for floorplan definition: 
 ```math
 Utilization = \frac{Area\ utilized\ by\ netlist}{Total\ core\ area}
@@ -85,3 +85,25 @@ and
 ```math
 Aspect\ Ratio= \frac{Heigth of core}{Width of core}
 ```
+* with abs min area known, we need to account for area occupied by routing metals.
+## (March/28/2025)
+* **Preplaced cells concept** : top level logic is broken into mutiple cuts and are implemented separately
+* The circuits implemented in such a way can be black boxed and the design can be used multiple times, like an IP block
+* Memory, complex clock gating cells, mux, comparators, ALU’s can be designed in such a way
+* These cells are placed and fixed before the std cell placement and the tool doent alter the placement of these pre-placed cells
+* we need to surround the preplaced cells with decoupling  cells
+  
+* **decoupling  cells** help maintain stable supply voltage across the logic they are placed near , by provding capacitive charging effect in the event of supply voltage drop due to reistance on the pwr supply path
+* **pwr planning**: Having single pwr supply point results in voltage drop in larger circuits, this results in signal integrity issues. To solve this pwr meshes are spread throughout the design to have a very small path from pwr supply to logic devices.
+* **Pin Placement** requires knoledege of the design, how pins interact with cels inside the design.
+## LAB : floorplan and placement
+* `:~/Desktop/work/tools/openlane_working_dir/openlane/configuration` contains the tool default configurations and `README.md` filde inside that folder lists all the diffrent config variables avaible for the designer
+* priority : `:~/Desktop/work/tools/openlane_working_dir/openlane/configuration` < `design/runs/config.tcl` < `design/PDK.tcl`
+```bash
+  run_floorplan
+  # run floorplan
+```
+
+
+
+
