@@ -173,6 +173,49 @@ viewing the def generated in `magic`
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-28%2016-39-58.png)
 
 
+## Sky130 Day 3 - Design library cell using Magic Layout and ngspice characterization
+### Lab (MArch/30/2025)
 
+* Clone custom inverter standard cell design from github repository: [nickson-jose vsdstdcelldesign](https://github.com/nickson-jose/vsdstdcelldesign.git).
+* Load the custom inverter layout in magic and explore.
+```bash
+# Enter the Openlane work dir 
+# Clone the repo with custom inverter design
+git clone https://github.com/nickson-jose/vsdstdcelldesign.git
 
+# Enter repo directory
+cd vsdstdcelldesign
 
+# Copy magic tech file to the repo directory for easy access
+cp ../../pdks/sky130A/libs.tech/magic/sky130A.tech .
+
+# Command to open custom inverter layout in magic
+magic -T sky130A.tech sky130_inv.mag &
+
+# Do "s" to select the element under the cursor. multiple "s" selects all elements connected to the element under the cursor
+# after selection in tkconsole  of magic enter the command "what" to get info on elements selected
+```
+folder created by git clone
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-30%2016-25-42.png)
+magic gui for std cell
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-30%2016-26-21.png)
+PMOS identification
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-30%2017-32-20.png)
+NMOS identification
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-30%2017-32-42.png)
+Drain to drain connection of nmos and pmos
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-30%2017-34-28.png)
+Pwr to Pmos connection
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-30%2017-34-46.png)
+Gnd to Nmos connection
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-30%2017-35-01.png)
+
+* Next extract the inv cell layout
+```
+#inside the magic tkconsole
+extract all
+# creates cell.ext file
+ext2spice
+# creates spice file
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-30%2018-20-39.png)
