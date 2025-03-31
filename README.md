@@ -220,7 +220,7 @@ ext2spice
 ```
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-30%2018-20-39.png)
 
-### SKY130_D3_SK3 - Sky130 Tech File Labs
+### SKY130_D3_SK3 - Sky130 Tech File Labs (March/31/2025)
 #### ngspice sim for cell characterization
 
 * After the cell layout is created we need to do characterization (timing , noise)
