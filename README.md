@@ -219,3 +219,101 @@ ext2spice
 # creates spice file
 ```
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-30%2018-20-39.png)
+
+### SKY130_D3_SK3 - Sky130 Tech File Labs
+#### ngspice sim for cell characterization
+
+* After the cell layout is created we need to do characterization (timing , noise)
+* timimng characterization is sone after extracting the device parasitics and R,C and running simulatioms
+* here for inv cell we do transient analysis to find rise , fall transition, cell delay  
+
+### LAB
+* To create spice deck from spice file obtained from magic GUI , we need to add some extra commands tp spice
+      1. add lib paths were the pmos,nmos are modeled
+      2. add the proper grid dimension
+      3. check if the correct name is used for pmos, nmos moidels
+      4. Add signal, pwr, gnd connections to the circuit connections
+      5. define analaysis type and specify the parameters for simulation
+  ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-17.png) 
+Commands for ngspice simulation
+
+```bash
+# Command to directly load spice file for simulation to ngspice
+ngspice sky130_inv.spice
+
+# ngsice terminal will open, inside that make sur ethere is no errors, warnings mentioned. if errors are present, solve them first, before proceeding any further
+plot y vs time a
+# plotting output vs time and input
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-31%2016-57-45.png)
+
+
+
+Rise transition time calculation
+
+```math
+Rise\ transition\ time = Time\ taken\ for\ output\ to\ rise\ to\ 80\% - Time\ taken\ for\ output\ to\ rise\ to\ 20\%
+```
+```math
+20\%\ of\ output = 0.66\ V
+```
+```math
+80\%\ of\ output = 2.64\ V
+```
+
+
+```math
+Rise\ transition\ time = 2.2468 - 2.1824 = 0.06396\ ns = 64.4\ ps
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-31%2018-07-10.png)
+
+Fall transition time calculation
+
+```math
+Fall\ transition\ time = Time\ taken\ for\ output\ to\ fall\ to\ 20\% - Time\ taken\ for\ output\ to\ fall\ to\ 80\%
+```
+```math
+20\%\ of\ output = 660\ mV
+```
+```math
+80\%\ of\ output = 2.64\ V
+```
+```math
+Fall\ transition\ time = 4.0955 - 4.0530 = 42.5\ ps
+```
+
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-31%2018-11-20.png)
+
+Rise Cell Delay Calculation
+
+```math
+Rise\ Cell\ Delay = Time\ taken\ for\ output\ to\ rise\ to\ 50\% - Time\ taken\ for\ input\ to\ fall\ to\ 50\%
+```
+```math
+50\%\ of\ 3.3\ V = 1.65\ V
+```
+
+
+
+```math
+Rise\ Cell\ Delay = 2.21 - 2.15 = 0.06\ ns = 60\ ps
+
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-31%2018-18-42.png)
+
+Fall Cell Delay Calculation
+
+
+```math
+Fall\ Cell\ Delay = Time\ taken\ for\ output\ to\ fall\ to\ 50\% - Time\ taken\ for\ input\ to\ rise\ to\ 50\%
+```
+```math
+50\%\ of\ 3.3\ V = 1.65\ V
+```
+
+
+
+```math
+Fall\ Cell\ Delay = 4.0780 - 4.0501 = 0.0279\ ns = 27.9\ ps
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-31%2018-23-20.png)
