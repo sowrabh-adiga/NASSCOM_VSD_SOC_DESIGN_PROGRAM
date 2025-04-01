@@ -317,3 +317,32 @@ Fall\ Cell\ Delay = Time\ taken\ for\ output\ to\ fall\ to\ 50\% - Time\ taken\ 
 Fall\ Cell\ Delay = 4.0780 - 4.0501 = 0.0279\ ns = 27.9\ ps
 ```
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-03-31%2018-23-20.png)
+
+
+### APRIL/1/2025
+
+download the drc_test folder in home directory
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-01%2013-21-44.png)
+
+```bash
+cd drc_tests
+
+vi .magicrc
+# to view the magic rc file
+
+magic -d XR met3.mag&
+```
+TO draw a layer in magic
+* create a bbox by left right click of mouse
+* select the layer from the layer window by clicking it with mid mouse button
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-01%2018-52-22.png)
+
+As example for drc rule fxing open poly.mag in magic and zoomin on poly.9 error, serch for the error defination in online pdk resource at [skywater pdk readthedocs](https://skywater-pdk.readthedocs.io/en/main/rules/periphery.html#poly)
+open the tech file `sky130A.tech` in the same folder and edit the missing rule: (the redbox in images below are the edited rules)
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-25.png)
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-27.png)
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-01%2020-02-47.png)
+
+
+
+
