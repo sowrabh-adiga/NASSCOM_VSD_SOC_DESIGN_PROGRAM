@@ -347,11 +347,13 @@ open the tech file `sky130A.tech` in the same folder and edit the missing rule: 
 ## Sky130 Day 4 - Pre-layout timing analysis and importance of good clock tree
 ### April/2/2025
 
-* To insert the custom design into openlane flow, we need the characterised lib and lef
+* To insert the custom design (`sky130_vsdinv` in this course )into openlane flow, we need the characterised lib and lef
 * from `magic` GUI
 ```
 # rename the cell design
 save <new name>.mag
+
+save sky130_vsdinv.mag
 
 # open the design in new gui and write lef
 write lef <optional name, default is the design name in the gui>
@@ -370,6 +372,106 @@ set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/sr
 ```
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-29.png)
 
+* open the Openlane terminal as before and open a design
+```
+# Open the openlane terminal
+cd Desktop/work/tools/openlane_working_dir/openlane
 
+docker
+
+./flow.tcl -interactive
+
+# Inside openlane terminal
+
+# below cmd to be used to overwrite previous run data 
+prep -design picorv32a -tag <prev run folder inside /runs> -overwrite 
+
+# Cmds to include the new cell led in merged.lef in /tm[ folder
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+
+run_synthesis
+```
+* observe the reports for the default run of synthesis
+The chip area info
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-33.png)
+The WNS and TNS for the design
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-37.png)
+The custom `sky130_vsdinv` in `temp/the merged.lef` indicating the cell was successfully used during synthesis
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2020-15-58.png)
+
+* To improve the timing of teh design during synthesis we can alter some of the variables (like SYNTH_SIZING,SYNTH_STRATEGY,SYNTH_BUFFERING from `configurations/README.md`) to get desired results
+Variable information in `configurations/README.md`
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2019-42-55.png)
+Changing the variables in openlane terminal
+```tcl
+# Command to display current value of variable SYNTH_STRATEGY
+echo $::env(SYNTH_STRATEGY)
+
+# Command to set new value for SYNTH_STRATEGY
+set ::env(SYNTH_STRATEGY) "DELAY 3"
+
+# Command to display current value of variable SYNTH_BUFFERING to check whether it's enabled , if enabled =1
+echo $::env(SYNTH_BUFFERING)
+
+# Command to display current value of variable SYNTH_SIZING, if enabled =1
+echo $::env(SYNTH_SIZING)
+
+# Command to set new value for SYNTH_SIZING
+set ::env(SYNTH_SIZING) 1
+
+# Command to display current value of variable SYNTH_DRIVING_CELL to check whether it's the proper cell or not
+echo $::env(SYNTH_DRIVING_CELL)
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-35.png)
+
+run synthesis to take all changes
+```tcl
+run_synthesis
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2020-13-52.png)
+
+the TNS and WNS seems has become 0.0, but the chip area has increased
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2020-17-44.png)
+
+* Next run the floorplan
+```
+run_floorplan
+```
+This gives an error in the run and error log in openroad shows this:
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2020-54-22.png)
+but there are no large macros. to circumvent this we can run each step in floorplan individually 
+
+```
+init_floorplan
+place_io
+tap_decap_or
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2020-23-54.png)
+
+```
+run_placement
+```
+The overflow has to reduce or be closer to 0
+
+* open the def in `magic` in anaother terminal
+```bash
+# enter the dir of design
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/24-03_10-03/results/placement/
+
+# Command to load the placement def in magic tool
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2021-09-16.png)
+
+locating `sky130_vsdinv` instance in the implemented design
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2021-12-52.png)
+
+we can see the connectivity by selcting the `sky130_vsdinv` instance by keeping cursor  over it and pressing 's'. To see teh connections enter the cmd `expand` in tkconsole of `magic`
+
+```tcl
+expand
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2021-15-59.png)
 
 
