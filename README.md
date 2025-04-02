@@ -344,5 +344,32 @@ open the tech file `sky130A.tech` in the same folder and edit the missing rule: 
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-01%2020-02-47.png)
 
 
+## Sky130 Day 4 - Pre-layout timing analysis and importance of good clock tree
+### April/2/2025
+
+* To insert the custom design into openlane flow, we need the characterised lib and lef
+* from `magic` GUI
+```
+# rename the cell design
+save <new name>.mag
+
+# open the design in new gui and write lef
+write lef <optional name, default is the design name in the gui>
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2013-09-04.png)
+* copy `lib` and `lef` files to `design/<designanme>/src` folder
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2013-24-05.png)
+* edit the `design/config.tcl` file to include the paths to the new `lib`, `lef` in src folder. This ensures openlane flow picks the new lib and lef
+```tcl
+set ::env(LIB_SYNTH) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+set ::env(LIB_FASTEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__fast.lib"
+set ::env(LIB_SLOWEST) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__slow.lib"
+set ::env(LIB_TYPICAL) "$::env(OPENLANE_ROOT)/designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+
+set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/src/*.lef]
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-29.png)
+
+
 
 
