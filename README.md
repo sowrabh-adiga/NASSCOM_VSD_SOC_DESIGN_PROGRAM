@@ -344,9 +344,10 @@ open the tech file `sky130A.tech` in the same folder and edit the missing rule: 
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-01%2020-02-47.png)
 
 
-## Sky130 Day 4 - Pre-layout timing analysis and importance of good clock tree
-### April/2/2025
+## Sky130 Day 4 - Pre-layout timing analysis and importance of good clock tree : SKY130_D4_SK1 - Timing modelling using delay tables
 
+### April/2/2025
+*Tmimng table is used to model delay of a cel wrt to input transition and output load
 * To insert the custom design (`sky130_vsdinv` in this course )into openlane flow, we need the characterised lib and lef
 * from `magic` GUI
 ```
@@ -473,5 +474,75 @@ we can see the connectivity by selcting the `sky130_vsdinv` instance by keeping 
 expand
 ```
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-02%2021-15-59.png)
+
+### SKY130_D4_SK2 - Timing analysis with ideal clocks using openSTA
+#### April/03/2025
+
+* *setup analysis*  refers to he minimum time a data signal must be stable before the active clock edge to ensure proper data capture by a flip-flop
+* *Clock Jitter* refers to the deviation of a clock signal's edges from their supposed ideal clock edge
+* *Clock uncertainity* encompasses all sources of timing variation, including jitter and other factors like skew and process variations.
+* Uncertainity values are introduced in slack calculation of setup and hold slack to introduce more pessimisim to the design activity.
+
+### Lab to config the tool to run opensta post synthesis
+create `pre_sta.conf` to define the files to be loaded to the opensta for analysis in diffrent corners
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2014-46-10.png)
+create `mybase.sdc` file to define timimng contraints info for the sta tool. place it in `designs/picorv32a/src`
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2014-39-17.png)
+now run the opensta tool
+```bash
+sta pre_sta.conf
+```
+the analysis will be done and the results will be printed in the terminal
+
+min (hold)
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2014-48-08.png)
+max (setup)
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2014-48-45.png)
+
+#### Lab:  Optimization
+*Reopen the openlane to implemmemt any changes
+```bash
+docker
+
+./flow.tcl -interactive
+
+package require openlane 0.9
+
+prep -design picorv32a -tag 03-04_09-49 -overwrite
+
+# Adiitional commands to include custom lef to openlane flow
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+
+# Command to set new value for SYNTH_STRATEGY
+set ::env(SYNTH_STRATEGY) "DELAY 3" 
+
+# Command to set new value for SYNTH_SIZING
+set ::env(SYNTH_SIZING) 1
+
+# Command to set new value for SYNTH_MAX_FANOUT
+set ::env(SYNTH_MAX_FANOUT) 4
+
+# Now that the design is prepped and ready, we can run synthesis using following command
+run_synthesis
+```
+open new sta cmdline in new terminal
+```bash
+sta pre_sta.conf
+```
+screenshots from the run
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2015-51-34.png)
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2015-52-34.png)
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2015-52-52.png)
+
+
+
+
+
+
+
+
+
+
 
 
