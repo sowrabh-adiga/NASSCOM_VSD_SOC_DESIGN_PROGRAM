@@ -577,12 +577,39 @@ report_checks -from _35312_ -to _35239_ -through _22380_
 # report_checks -from _start_pont_net_id -to end_point_net_id -through cell_id
 ```
 
+### writin the ecos to new netlist
 
+keep the old netlist in different name
+```bash
+cd ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/03-04_09-49/results/synthesis/
 
+mv picorv32a.synthesis.v picorv32a.synthesis_old.v
+```
+ 
+Now write the new netlist in the opensta terminal
 
+```tcl
+write_verilog  write_verilog ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/03-04_09-49/results/synthesis/picorv32a.synthesis.v
+```
+After this stage rerunning synthesis will erase all the good changes done in opensta tool. so after `write_verilog` cmd we can return to openalne cmdline and run
 
+```tcl
 
+#if "run_floorplan" command gives error, following cmds do the same
+init_floorplan
+place_io
+tap_decap_or
 
+# Now we are ready to run placement
+run_placement
+
+# With placement finished , run CTS
+run_cts
+```
+After the cts , new .v file is creted in the synthesis results folder 
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2017-26-48.png)
+
+### SKY130_D4_SK4 - Timing analysis with real clocks using openSTA
 
 
 
