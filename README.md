@@ -535,6 +535,48 @@ screenshots from the run
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2015-52-34.png)
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2015-52-52.png)
 
+### Eco implementation
+
+* identify problematic cells from the design 
+The oai cell seems to be drving 4 cells
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2016-11-33.png)
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2016-11-45.png)
+```tcl
+# Reports all the connections to a net
+report_net -connections _04373_
+
+# Checking command syntax
+help replace_cell
+
+# Replacing cell
+replace_cell _22324_ sky130_fd_sc_hd__o21ai_4
+
+# Generating custom timing report
+report_checks -fields {net cap slew input_pins} -digits 4
+```
+The slack improved from -4.62 to -4.5886
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2016-26-41.png)
+
+Nand gate of strength 2 is driving three cells
+* changing drive stenght to 3 returns the message "Warning: liberty cell 'sky130_fd_sc_hd__nand2_3' not found."
+* changing the drive strenght to 4
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2016-34-05.png)
+the slack reduced to -4.5555 from -4.5886
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2016-35-09.png)
+
+OAI cell of drive strenght 2 has more delay:
+* changing drive stenght to 3 returns the message "Warning: liberty cell 'sky130_fd_sc_hd__o21bai_3' not found."
+* changing the drive strenght to 4
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2016-43-17.png)
+The slack reduced from -4.5555 to -4.5060
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2016-43-30.png)
+
+to check the timimg through a cell we changed
+```tcl
+report_checks -from _35312_ -to _35239_ -through _22380_
+# report_checks -from _start_pont_net_id -to end_point_net_id -through cell_id
+```
+
 
 
 
