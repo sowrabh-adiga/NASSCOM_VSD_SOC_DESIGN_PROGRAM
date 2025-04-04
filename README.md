@@ -610,6 +610,62 @@ After the cts , new .v file is creted in the synthesis results folder
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-03%2017-26-48.png)
 
 ### SKY130_D4_SK4 - Timing analysis with real clocks using openSTA
+### April/04/2025
+
+* openroad is is the tool around which openlane was built, openroad has inbuit sta tool which we will utilze to analyse timimg.
+```bash
+docker
+
+./flow.tcl -interactive
+
+package require openlane 0.9
+
+#to start with previous data without overwrite tag
+prep -design picorv32a -tag 03-04_09-49 
+```
+
+```tcl
+# INit Openroad terminal inside openlane terminal
+openroad
+
+# Reading lef file
+read_lef /openLANE_flow/designs/picorv32a/runs/03-04_09-49 /tmp/merged.lef
+
+# Reading def file
+read_def /openLANE_flow/designs/picorv32a/runs/03-04_09-49/results/cts/picorv32a.cts.def
+
+# Creating an OpenROAD database to work with
+write_db pico_cts.db
+
+# Loading the created database in OpenROAD
+read_db pico_cts.db
+
+# Read netlist post CTS
+read_verilog /openLANE_flow/designs/picorv32a/runs/03-04_09-49/results/synthesis/picorv32a.synthesis_cts.v
+
+# Read library for design
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+# Read in the custom sdc we created
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+# Setting all cloks as propagated clocks
+set_propagated_clock [all_clocks]
+
+# Generating custom timing report
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+
+# Exit to OpenLANE flow into openRoad
+exit
+```
+cmd runs:
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2014-09-21.png)
+hold slack report
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2014-09-30.png)
+setup slack report
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2014-09-41.png)
+
+
 
 
 
