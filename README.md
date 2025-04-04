@@ -740,16 +740,100 @@ setup slack and skew values
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2016-04-37.png)
 
 before removal of "sky130_fd_sc_hd__clkbuf_1":
-|Type|Value|
+|Slack|Value|
 |----|-----|
 |hold | 0.0637   slack (MET)|
 |setup | 4.5985   slack (MET)|
 
 After removal of "sky130_fd_sc_hd__clkbuf_1":
-|Type|Value|
+|Slack|Value|
 |----|-----|
 |hold |  0.2351   slack (MET)|
 |setup | 4.6943   slack (MET)|
+
+### Sky130 Day 5 - Final steps for RTL2GDS using tritonRoute and openSTA
+3 steps are done here:
+* PWR Routing : due to how openlane is structured pwr routing is done at this stage, normally PDN is created during floorplan stage
+* signal routing withh triton route
+* Rc extraction
+* OpenSTA for post route timing analysis
+
+PWR Routing:
+```tcl
+
+# check which def file openlane is currently pointing at , it should be pointing to CTS def
+echo $::env(CURRENT_DEF)
+
+# create PDN
+gen_pdn
+```
+pdn.def generated
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-45.png)
+
+Signal routing
+ROUTING_STRATEGY variable isnt available, routing optimization iterations (ROUTING_OPT_ITERS) has a default value of 64
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2017-47-51.png)
+```tcl
+run_routing
+```
+file genrated after the routing
+
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2017-20-13.png)
+Post route the SPEF extraction and STA happens with `run_routing` command
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-43.png)
+
+to verify the results open the OpenRoad tool
+
+```tcl
+openroad
+
+# Reading lef file
+read_lef /openLANE_flow/designs/picorv32a/runs/04-04_09-02/tmp/merged.lef
+
+# Reading def file
+read_def /openLANE_flow/designs/picorv32a/runs/04-04_09-02/results/routing/picorv32a.def
+
+# Creating an OpenROAD database to work with
+write_db pico_route.db
+
+# Loading the created database in OpenROAD
+read_db pico_route.db
+
+# Read netlist post CTS
+read_verilog /openLANE_flow/designs/picorv32a/runs/04-04_09-02/results/synthesis/picorv32a.synthesis_preroute.v
+
+# Read library for design
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+# Read in the custom sdc we created
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+# Setting all cloks as propagated clocks
+set_propagated_clock [all_clocks]
+
+# Read SPEF
+read_spef /openLANE_flow/designs/picorv32a/runs/04-04_09-02/results/routing/picorv32a.spef
+
+# Generating custom timing report
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+
+# Exit to OpenLANE flow
+exit
+```
+cmds
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2017-51-50.png)
+hold
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2017-52-16.png)
+setup
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2017-52-25.png)
+
+Final Slack values
+
+|Slack|Value|
+|----|-----|
+|hold |  0.1079   slack (MET)|
+|setup | 4.3674   slack (MET)|
+
 
 
 
