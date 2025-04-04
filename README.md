@@ -769,6 +769,16 @@ gen_pdn
 ```
 pdn.def generated
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-45.png)
+view the pdn with 
+```bash
+
+cd ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/04-04_09-02/tmp/floorplan
+
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../merged.lef def read 12-pdn.def &
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2018-33-39.png)
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2018-34-34.png)
+
 
 Signal routing
 ROUTING_STRATEGY variable isnt available, routing optimization iterations (ROUTING_OPT_ITERS) has a default value of 64
@@ -776,9 +786,19 @@ ROUTING_STRATEGY variable isnt available, routing optimization iterations (ROUTI
 ```tcl
 run_routing
 ```
-file genrated after the routing
+files genrated after the routing
 
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2017-20-13.png)
+to visualize the def with magic
+```bash
+cd ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/04-04_09-02/results/routing/
+
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.def &
+
+```
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2018-49-56.png)
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-04%2018-51-57.png)
+
 Post route the SPEF extraction and STA happens with `run_routing` command
 ![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot-43.png)
 
