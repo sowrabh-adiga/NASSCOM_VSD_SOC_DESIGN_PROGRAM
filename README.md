@@ -855,7 +855,7 @@ Final Slack values
 |setup | 4.3674   slack (MET)|
 
 # Certificate
-
+![](https://github.com/sowrabh-adiga/NASSCOM_VSD_SOC_DESIGN_PROGRAM/blob/main/files/Screenshot%20from%202025-04-16%2008-34-10.png)
 
 # Acknowledgements
 
